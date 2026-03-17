@@ -61,27 +61,22 @@
     /* HERO */
     #hero { position:relative; min-height:100vh; display:flex; align-items:flex-end; background:#000; }
 
-    /* grade animada */
     .hero-bg-lines { position:absolute; inset:0; background-image: linear-gradient(90deg,rgba(255,255,255,0.05) 1px,transparent 1px), linear-gradient(rgba(255,255,255,0.05) 1px,transparent 1px); background-size:80px 80px; animation:gridShift 25s linear infinite; z-index:0; }
     @keyframes gridShift { from{background-position:0 0} to{background-position:80px 80px} }
 
-    /* canvas — orbs + partículas + sweep tudo aqui */
     #heroCanvas { position:absolute; inset:0; width:100%; height:100%; z-index:1; pointer-events:none; }
 
-    /* foto */
     .hero-photo-wrap { position:absolute; bottom:0; left:50%; transform:translateX(-50%); width:680px; max-width:75vw; z-index:2; opacity:0; animation:photoReveal 1.4s cubic-bezier(.22,1,.36,1) 0.3s forwards; }
     @keyframes photoReveal { from{opacity:0;transform:translateX(-50%) translateY(50px)} to{opacity:1;transform:translateX(-50%) translateY(0)} }
     .hero-photo-wrap img { width:100%; display:block; filter:contrast(1.06) brightness(1.02); }
     .hero-photo-glow { position:absolute; bottom:-40px; left:50%; transform:translateX(-50%); width:600px; height:260px; background:radial-gradient(ellipse,rgba(255,255,255,0.12) 0%,transparent 70%); border-radius:50%; z-index:1; }
 
-    /* texto esquerdo — centralizado verticalmente */
     .hero-left { position:absolute; left:60px; top:50%; transform:translateY(-50%); z-index:3; opacity:0; animation:slideRight 1s ease 0.9s forwards; }
     @keyframes slideRight { from{opacity:0;transform:translateY(-50%) translateX(-30px)} to{opacity:1;transform:translateY(-50%) translateX(0)} }
     .hero-label { font-size:9px; font-weight:500; letter-spacing:0.45em; text-transform:uppercase; color:var(--gray-400); margin-bottom:20px; }
     .hero-name { font-family:'Cormorant Garamond',serif; font-size:clamp(56px,7.5vw,100px); font-weight:300; line-height:0.95; }
     .hero-name em { font-style:italic; }
 
-    /* texto direito */
     .hero-right { position:absolute; right:60px; top:50%; transform:translateY(-50%); z-index:3; text-align:right; opacity:0; animation:slideLeft 1s ease 1.1s forwards; }
     @keyframes slideLeft { from{opacity:0;transform:translateY(-50%) translateX(30px)} to{opacity:1;transform:translateY(-50%) translateX(0)} }
     .hero-desc { font-size:11px; font-weight:300; letter-spacing:0.2em; line-height:2; color:var(--gray-400); text-transform:uppercase; max-width:220px; margin-left:auto; }
@@ -134,9 +129,7 @@
     .process-step-title { font-family:'Cormorant Garamond',serif; font-size:24px; font-weight:400; margin-bottom:16px; }
     .process-step-desc { font-size:12px; font-weight:300; line-height:2; color:var(--gray-400); }
 
-    /* ═══════════════════════════════════════════
-       CARROSSEL DE FOTOS
-    ═══════════════════════════════════════════ */
+    /* CARROSSEL */
     #gallery { background:#050505; border-top:1px solid rgba(255,255,255,0.05); padding:130px 0; overflow:hidden; }
     .gallery-header { padding:0 60px; margin-bottom:60px; display:flex; align-items:flex-end; justify-content:space-between; }
     .gallery-title { font-family:'Cormorant Garamond',serif; font-size:clamp(38px,5vw,65px); font-weight:300; line-height:1; }
@@ -227,21 +220,43 @@
       .process-step { border-bottom:1px solid rgba(255,255,255,0.06); }
     }
     @media(max-width:900px){
-      body > nav { padding:0 28px; height:64px; } .nav-links { display:none; }
+      body > nav { padding:0 28px; height:64px; }
+      .nav-links { display:none; }
+      /* ── CORREÇÃO MOBILE: esconde tagline que ficava colada no nome ── */
+      .nav-tagline { display:none; }
       section { padding:80px 28px; }
       #gallery { padding:80px 0; }
       .gallery-header { padding:0 28px; flex-direction:column; align-items:flex-start; gap:30px; }
       #about { grid-template-columns:1fr; gap:50px; }
       .services-grid,.testimonials-grid,.social-links { grid-template-columns:1fr; }
-      .hero-left { left:28px; bottom:90px; } .hero-right { display:none; }
-      footer { padding:50px 28px 40px; } .footer-top { flex-direction:column; gap:40px; }
+      /* ── CORREÇÃO MOBILE: texto mais baixo, sem espaço vazio no topo ── */
+      .hero-left {
+        left:28px;
+        top: auto;
+        bottom: 180px;
+        transform: none;
+        animation: none;
+        opacity: 1;
+      }
+      .hero-right { display:none; }
+      /* ── CORREÇÃO MOBILE: foto ocupa largura total ── */
+      .hero-photo-wrap {
+        width: 100vw;
+        max-width: 100vw;
+        left: 0;
+        transform: none;
+      }
+      footer { padding:50px 28px 40px; }
+      .footer-top { flex-direction:column; gap:40px; }
       .footer-bottom { flex-direction:column; gap:16px; text-align:center; }
       .services-header { flex-direction:column; gap:20px; align-items:flex-start; }
       .carousel-slide { flex:0 0 calc(85% - 16px); margin-right:16px; }
       .carousel-track-wrap { padding-left:28px; }
     }
     @media(max-width:600px){
-      .hero-name { font-size:44px; } .about-stats { grid-template-columns:1fr; }
+      .hero-name { font-size:52px; }
+      .hero-left { bottom: 160px; }
+      .about-stats { grid-template-columns:1fr; }
       .process-steps { grid-template-columns:1fr; }
       .carousel-slide { flex:0 0 calc(90% - 12px); margin-right:12px; }
     }
@@ -358,23 +373,7 @@
   </div>
 </section>
 
-<!-- ════════════════════════════════════════════════════════
-     CARROSSEL DE FOTOS — SEÇÃO 04
-     
-     Como trocar as fotos:
-     1. Coloque as 4 fotos na mesma pasta que o index.html
-     2. Nos 4 blocos abaixo, substitua o src="foto1.jpg" pelo
-        nome exato do arquivo da sua foto.
-     
-     Exemplo:
-        src="foto1.jpg"     →  troque por  src="minha-foto.jpg"
-        src="foto2.jpg"     →  troque por  src="culto.jpg"
-        src="foto3.jpg"     →  troque por  src="evento.jpg"
-        src="foto4.jpg"     →  troque por  src="pregacao.jpg"
-     
-     Você também pode alterar o texto de cada legenda
-     (carousel-slide-caption) abaixo de cada imagem.
-════════════════════════════════════════════════════════ -->
+<!-- CARROSSEL -->
 <section id="gallery">
   <div class="gallery-header">
     <div>
@@ -387,41 +386,30 @@
       <button class="carousel-btn" id="nextBtn">&#8594;</button>
     </div>
   </div>
-
   <div class="carousel-track-wrap">
     <div class="carousel-track" id="carouselTrack">
-
-      <!-- FOTO 1 ↓ troque "foto1.jpg" -->
       <div class="carousel-slide">
         <img src="FOTO1.png" alt="Foto 1" />
         <div class="carousel-slide-overlay"></div>
         <span class="carousel-slide-caption">Ministério em ação</span>
       </div>
-
-      <!-- FOTO 2 ↓ troque "foto2.jpg" -->
       <div class="carousel-slide">
         <img src="FOTO2.png" alt="Foto 2" />
         <div class="carousel-slide-overlay"></div>
         <span class="carousel-slide-caption">Comunicação com excelência</span>
       </div>
-
-      <!-- FOTO 3 ↓ troque "foto3.jpg" -->
       <div class="carousel-slide">
         <img src="FOTO4.png" alt="Foto 3" />
         <div class="carousel-slide-overlay"></div>
         <span class="carousel-slide-caption">Cada detalhe importa</span>
       </div>
-
-      <!-- FOTO 4 ↓ troque "foto4.jpg" -->
       <div class="carousel-slide">
         <img src="FOTO3.png" alt="Foto 4" />
         <div class="carousel-slide-overlay"></div>
         <span class="carousel-slide-caption">Agendas que inspiram</span>
       </div>
-
     </div>
   </div>
-
   <div class="carousel-dots" id="carouselDots">
     <div class="carousel-dot active"></div>
     <div class="carousel-dot"></div>
@@ -461,12 +449,6 @@
   <p class="cta-eyebrow reveal">Entre em contato</p>
   <h2 class="cta-heading reveal">Agende<br><em>agora</em></h2>
   <p class="cta-sub reveal reveal-delay-1">Pronto para elevar a comunicação da sua igreja? Entre em contato pelo WhatsApp e solicite sua agenda hoje mesmo.</p>
-  <!--
-    LINK DO WHATSAPP ↓
-    Troque o número pelo número real do Isak.
-    Formato: 55 + DDD + número (sem espaços ou hifens)
-    Exemplo Rio de Janeiro: https://wa.me/5521999999999
-  -->
   <a href="https://wa.me/554384480155?text=Ol%C3%A1%2C%20quero%20fechar%20uma%20agenda%20com%20o%20Isak%20Oliveira." target="_blank" class="btn-primary reveal reveal-delay-2">
     <span>Agendar pelo WhatsApp</span>
     <span class="btn-arrow">→</span>
@@ -477,7 +459,6 @@
 <section id="social">
   <p class="social-label reveal">Siga nas redes sociais</p>
   <div class="social-links">
-    <!-- INSTAGRAM ↓ troque a URL -->
     <a href="https://instagram.com/isakoliveiraa_" target="_blank" class="social-link reveal">
       <div class="social-link-inner">
         <div class="social-icon"><svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg></div>
@@ -485,7 +466,6 @@
       </div>
       <span class="social-arrow">↗</span>
     </a>
-    <!-- TIKTOK ↓ troque a URL -->
     <a href="https://www.tiktok.com/@isakoliveiraa_?_r=1&_t=ZS-94lw19MZIUT" target="_blank" class="social-link reveal reveal-delay-1">
       <div class="social-link-inner">
         <div class="social-icon"><svg viewBox="0 0 24 24"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.27 6.27 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.69a8.16 8.16 0 004.77 1.52V6.76a4.85 4.85 0 01-1-.07z"/></svg></div>
@@ -493,7 +473,6 @@
       </div>
       <span class="social-arrow">↗</span>
     </a>
-    <!-- YOUTUBE ↓ troque a URL -->
     <a href="https://youtube.com/@isakoliveiraa?si=z9PHMlVgK0VZFNPy" target="_blank" class="social-link reveal reveal-delay-2">
       <div class="social-link-inner">
         <div class="social-icon"><svg viewBox="0 0 24 24"><path d="M23.495 6.205a3.007 3.007 0 00-2.088-2.088c-1.87-.501-9.396-.501-9.396-.501s-7.507-.01-9.396.501A3.007 3.007 0 00.527 6.205a31.247 31.247 0 00-.522 5.805 31.247 31.247 0 00.522 5.783 3.007 3.007 0 002.088 2.088c1.868.502 9.396.502 9.396.502s7.506 0 9.396-.502a3.007 3.007 0 002.088-2.088 31.247 31.247 0 00.5-5.783 31.247 31.247 0 00-.5-5.805zM9.609 15.601V8.408l6.264 3.602z"/></svg></div>
@@ -598,29 +577,25 @@
   const track=document.getElementById('carouselTrack');
   const dots=document.querySelectorAll('.carousel-dot');
   const counter=document.getElementById('carouselCounter');
-  const total=4; // número real de slides
+  const total=4;
   let current=0,autoTimer,isTransitioning=false;
 
-  // Clonar todos os slides no final e no início para loop infinito
   const realSlides=Array.from(track.querySelectorAll('.carousel-slide'));
   realSlides.forEach(s=>track.appendChild(s.cloneNode(true)));
   realSlides.forEach(s=>track.insertBefore(s.cloneNode(true), track.firstChild));
 
   const allSlides=track.querySelectorAll('.carousel-slide');
-  // começa no índice = total (pula os clones do início)
   let pos=total;
 
   function slideW(){
     const s=allSlides[0],m=parseFloat(window.getComputedStyle(s).marginRight)||0;
     return s.offsetWidth+m;
   }
-
   function setPos(idx, animate){
     if(!animate) track.style.transition='none';
     else track.style.transition='transform 0.7s cubic-bezier(.22,1,.36,1)';
     track.style.transform=`translateX(-${slideW()*idx}px)`;
   }
-
   function goTo(dir){
     if(isTransitioning) return;
     isTransitioning=true;
@@ -630,38 +605,22 @@
     dots.forEach((d,j)=>d.classList.toggle('active',j===current));
     counter.textContent=`${current+1} / ${total}`;
   }
-
   track.addEventListener('transitionend',()=>{
     isTransitioning=false;
-    // se passou dos clones do fim, volta silenciosamente para os reais
-    if(pos>=total*2){
-      pos=total+(pos-total*2);
-      setPos(pos, false);
-      requestAnimationFrame(()=>{ track.style.transition=''; });
-    }
-    // se foi para antes dos reais, salta para o fim
-    if(pos<total){
-      pos=total*2-(total-pos);
-      setPos(pos, false);
-      requestAnimationFrame(()=>{ track.style.transition=''; });
-    }
+    if(pos>=total*2){ pos=total+(pos-total*2); setPos(pos,false); requestAnimationFrame(()=>{ track.style.transition=''; }); }
+    if(pos<total){ pos=total*2-(total-pos); setPos(pos,false); requestAnimationFrame(()=>{ track.style.transition=''; }); }
   });
-
   document.getElementById('prevBtn').addEventListener('click',()=>{goTo(-1);reset();});
   document.getElementById('nextBtn').addEventListener('click',()=>{goTo(1);reset();});
   dots.forEach((d,i)=>d.addEventListener('click',()=>{
     const diff=(i+total-current)%total||total;
-    goTo(diff<=total/2?diff:-( total-diff));
+    goTo(diff<=total/2?diff:-(total-diff));
     reset();
   }));
-
   function reset(){clearInterval(autoTimer);autoTimer=setInterval(()=>goTo(1),4500);}
-
-  // inicializar posição sem animação
   setPos(pos, false);
   reset();
 
-  /* swipe */
   let tx=0;
   track.addEventListener('touchstart',e=>{tx=e.touches[0].clientX;},{passive:true});
   track.addEventListener('touchend',e=>{const d=tx-e.changedTouches[0].clientX;if(Math.abs(d)>50){goTo(d>0?1:-1);reset();}});
